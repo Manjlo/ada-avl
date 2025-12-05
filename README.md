@@ -1,8 +1,10 @@
 # Proyecto: Implementación de Colas de Prioridad con Montículos y Árboles AVL para Indexación
 
 **Fecha:** 05 de diciembre de 2025
-**Grupo:** (Nombres de los 3 estudiantes)
-**Repositorio:** (Añadir enlace al repositorio de GitHub/GitLab aquí)
+**Grupo:**
+- Angie Quenan (2370483)
+- Jhonatan Castaño (2229020)
+**Repositorio:** [https://github.com/Manjlo/ada-avl](https://github.com/Manjlo/ada-avl)
 
 ---
 
@@ -60,8 +62,8 @@ Sigue estos sencillos pasos para poner en marcha la aplicación en tu máquina l
 
 1.  **Clona el Repositorio:**
     ```bash
-    git clone <URL_DEL_REPOSITORIO>
-    cd <NOMBRE_DEL_DIRECTORIO>
+    git clone https://github.com/Manjlo/ada-avl.git
+    cd ada-avl
     ```
 
 2.  **Instala las Dependencias:**
