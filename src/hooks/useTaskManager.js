@@ -15,6 +15,8 @@ export function useTaskManager() {
   const heap = useRef(new BinaryHeap());
   const avl = useRef(new AVLTree());
 
+  const isInitialMount = useRef(true);
+
   // Load tasks from storage on initial render
   useEffect(() => {
     const initialTasks = loadTasks();
@@ -33,7 +35,13 @@ export function useTaskManager() {
 
   // Persist tasks to storage whenever the list changes
   useEffect(() => {
-    saveTasks(tasksList);
+    // On the initial render, tasks are loaded from storage, so we don't want
+    // to immediately overwrite that with an empty array. This check prevents that.
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      saveTasks(tasksList);
+    }
   }, [tasksList]);
 
   const addTask = useCallback((taskData) => {
