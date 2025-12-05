@@ -4,6 +4,7 @@ import { TaskForm } from "./components/TaskForm";
 import { TaskList } from "./components/TaskList";
 import { TopTaskCard } from "./components/TopTaskCard";
 import { AVLVisualizer } from "./components/AVLVisualizer";
+import { AVLSearchTester } from "./components/AVLSearchTester";
 import "./App.css";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     getTopTask,
     popTopTask,
     updateTask,
+    findTask,
   } = useTaskManager();
 
   const topTask = getTopTask();
@@ -38,6 +40,7 @@ function App() {
 
         <div className="right-column">
           <AVLVisualizer root={avlRoot} />
+          <AVLSearchTester tasks={tasksList} onSearch={findTask} />
         </div>
       </main>
     </div>

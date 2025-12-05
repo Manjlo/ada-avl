@@ -1,0 +1,62 @@
+/* src/components/AVLSearchTester.css */
+.search-tester-container {
+  padding: 1rem;
+  background-color: var(--background-light);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.search-tester-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.search-tester-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.search-button {
+  background-color: var(--accent-indigo);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.search-button:hover {
+  background-color: #4338ca;
+}
+
+.search-result {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #374151;
+  border-radius: var(--border-radius);
+  text-align: left;
+}
+
+.search-result h4 {
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.search-result p {
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.search-result .result-id,
+.search-result .result-desc,
+.search-result .result-time {
+  color: var(--text-primary);
+  font-weight: 600;
+}
