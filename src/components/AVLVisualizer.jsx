@@ -1,57 +1,39 @@
 // src/components/AVLVisualizer.jsx
-import { useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import './AVLVisualizer.css';
 
-// 1. Reduced sizes for a cleaner look
 const NODE_RADIUS = 6;
 const LEVEL_HEIGHT = 25;
 const HORIZONTAL_GAP = 6;
 const PADDING = 20;
 
-/**
- * Calculates the position of each node in the tree using a recursive,
- * post-order traversal approach to prevent overlaps and center parents.
- */
+// ... (calculatePositions and Node component remain the same)
 function calculatePositions(node, level = 0, xOffset = 0, positions = {}) {
   if (!node) {
     return { positions, width: 0 };
   }
-
-  // Process left subtree first
   const left = calculatePositions(node.left, level + 1, xOffset, positions);
   const leftWidth = left.width;
-
-  // Position the current node after the left subtree
   const nodeX = xOffset + leftWidth + (leftWidth > 0 ? HORIZONTAL_GAP : 0);
   positions[node.key] = {
     x: nodeX + NODE_RADIUS,
     y: level * LEVEL_HEIGHT + NODE_RADIUS,
   };
-
-  // Process the right subtree, starting after the current node
   const rightX = nodeX + NODE_RADIUS * 2;
   const right = calculatePositions(node.right, level + 1, rightX + (leftWidth > 0 ? HORIZONTAL_GAP : 0), positions);
   const rightWidth = right.width;
-
-  // Total width is the sum of all parts
   const totalWidth = leftWidth + (leftWidth > 0 ? HORIZONTAL_GAP : 0) +
                      NODE_RADIUS * 2 +
                      (rightWidth > 0 ? HORIZONTAL_GAP : 0) + rightWidth;
-
   return { positions, width: totalWidth };
 }
 
-
-// A simple, non-animated component to render a single node
 const Node = ({ node, positions, parentPosition }) => {
   if (!node) return null;
-
   const pos = positions[node.key];
   const priorityClassName = `priority-${node.task.priority}`;
-
   return (
     <g>
-      {/* Line from parent to current node */}
       {parentPosition && (
         <line
           x1={parentPosition.x}
@@ -61,12 +43,8 @@ const Node = ({ node, positions, parentPosition }) => {
           className="node-line"
         />
       )}
-
-      {/* Recursive rendering for children */}
       <Node node={node.left} positions={positions} parentPosition={pos} />
       <Node node={node.right} positions={positions} parentPosition={pos} />
-
-      {/* Node group (circle + text) */}
       <g transform={`translate(${pos.x}, ${pos.y})`}>
         <circle
           className={`node-circle ${priorityClassName}`}
@@ -84,16 +62,18 @@ const Node = ({ node, positions, parentPosition }) => {
   );
 };
 
+
 export function AVLVisualizer({ root }) {
-  const { positions, viewBox } = useMemo(() => {
+  const [viewBox, setViewBox] = useState({ x: 0, y: 0, width: 0, height: 0 });
+  const isPanning = useRef(false);
+  const lastPoint = useRef({ x: 0, y: 0 });
+  const svgRef = useRef(null);
+
+  const { positions, initialViewBox } = useMemo(() => {
     if (!root) {
-      return { positions: {}, viewBox: `0 0 0 0` };
+      return { positions: {}, initialViewBox: { x: 0, y: 0, width: 100, height: 100 } };
     }
-
-    // 2. Calculate all node positions first
     const { positions } = calculatePositions(root);
-
-    // 3. Dynamically determine the bounding box of the tree
     let minX = Infinity, maxX = -Infinity, maxY = -Infinity;
     for (const key in positions) {
       const pos = positions[key];
@@ -101,23 +81,70 @@ export function AVLVisualizer({ root }) {
       maxX = Math.max(maxX, pos.x + NODE_RADIUS);
       maxY = Math.max(maxY, pos.y + NODE_RADIUS);
     }
-
     const width = maxX - minX + PADDING * 2;
-    const height = maxY + PADDING;
-    const viewBoxX = minX - PADDING;
-    const viewBoxY = 0;
-
-    return { positions, viewBox: `${viewBoxX} ${viewBoxY} ${width} ${height}` };
+    const height = maxY + PADDING * 2;
+    return { positions, initialViewBox: { x: minX - PADDING, y: 0, width, height } };
   }, [root]);
 
+  // Set initial viewbox when the tree changes
+  useState(() => {
+    setViewBox(initialViewBox);
+  }, [initialViewBox]);
+
+  const getPoint = (e) => {
+    const CTM = svgRef.current.getScreenCTM();
+    return {
+      x: (e.clientX - CTM.e) / CTM.a,
+      y: (e.clientY - CTM.f) / CTM.d
+    };
+  };
+
+  const onMouseDown = (e) => {
+    isPanning.current = true;
+    lastPoint.current = getPoint(e);
+  };
+
+  const onMouseMove = (e) => {
+    if (!isPanning.current) return;
+    const point = getPoint(e);
+    setViewBox(vb => ({
+      ...vb,
+      x: vb.x - (point.x - lastPoint.current.x),
+      y: vb.y - (point.y - lastPoint.current.y)
+    }));
+  };
+
+  const onMouseUp = () => {
+    isPanning.current = false;
+  };
+
+  const onWheel = (e) => {
+    e.preventDefault();
+    const { x, y } = getPoint(e);
+    const scale = e.deltaY > 0 ? 1.1 : 0.9;
+    const newWidth = viewBox.width * scale;
+    const newHeight = viewBox.height * scale;
+    setViewBox({
+      x: viewBox.x + (x - viewBox.x) * (1 - scale),
+      y: viewBox.y + (y - viewBox.y) * (1 - scale),
+      width: newWidth,
+      height: newHeight,
+    });
+  };
+
   return (
-    <div className="visualizer-container">
+    <div className={`visualizer-container ${isPanning.current ? 'panning' : ''}`}>
       <h2 className="visualizer-title">Visualización del Árbol AVL</h2>
       {root ? (
         <svg
+          ref={svgRef}
           className="visualizer-svg"
-          viewBox={viewBox}
-          preserveAspectRatio="xMidYMid meet"
+          viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUp}
+          onMouseLeave={onMouseUp} // Stop panning if mouse leaves SVG
+          onWheel={onWheel}
         >
           <Node node={root} positions={positions} parentPosition={null} />
         </svg>

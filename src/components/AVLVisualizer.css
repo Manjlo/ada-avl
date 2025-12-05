@@ -26,6 +26,12 @@
 .visualizer-svg {
   max-width: 100%;
   height: auto;
+  cursor: grab;
+  user-select: none; /* Prevent text selection while panning */
+}
+
+.visualizer-container.panning .visualizer-svg {
+  cursor: grabbing;
 }
 
 .node-line {
