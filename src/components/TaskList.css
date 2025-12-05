@@ -1,0 +1,82 @@
+/* src/components/TaskList.css */
+.task-list-container {
+  padding: 1rem;
+  background-color: var(--background-light);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.task-list-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 24rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background-color: #374151;
+  border-radius: var(--border-radius);
+}
+
+.task-details .task-description {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.task-details .task-due-date {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.priority-badge {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  border-radius: 9999px;
+}
+
+.priority-low { background-color: var(--success-green); }
+.priority-medium { background-color: var(--warning-yellow); }
+.priority-high { background-color: var(--danger-red); }
+.priority-unknown { background-color: var(--text-secondary); }
+
+.complete-button {
+  background-color: var(--success-green);
+  color: var(--text-primary);
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.complete-button:hover {
+  background-color: #059669;
+}
+
+.no-tasks {
+  color: var(--text-secondary);
+}

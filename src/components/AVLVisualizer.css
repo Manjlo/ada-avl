@@ -1,0 +1,54 @@
+/* src/components/AVLVisualizer.css */
+.visualizer-container {
+  padding: 1rem;
+  background-color: var(--background-light);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px; /* Ensure container has a minimum height */
+}
+
+.visualizer-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  position: absolute; /* Position title within the container */
+  top: 1rem;
+  left: 1rem;
+}
+
+.visualizer-svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.node-line {
+  stroke: white;
+  stroke-width: 2;
+}
+
+.node-circle {
+  stroke: white;
+  stroke-width: 2;
+}
+
+.priority-1 { fill: var(--success-green); }
+.priority-2 { fill: var(--warning-yellow); }
+.priority-3 { fill: var(--danger-red); }
+
+.node-text {
+  fill: black;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.empty-tree-message {
+  color: var(--text-secondary);
+  text-align: center;
+}

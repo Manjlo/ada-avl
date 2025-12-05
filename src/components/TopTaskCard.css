@@ -1,0 +1,46 @@
+/* src/components/TopTaskCard.css */
+.top-task-card {
+  padding: 1rem;
+  background-image: linear-gradient(to right, var(--accent-purple), var(--accent-indigo));
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.top-task-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.top-task-description {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.top-task-details {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+.pop-task-button {
+  margin-top: 1rem;
+  width: 100%;
+  background-color: var(--text-primary);
+  color: var(--accent-indigo);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pop-task-button:hover {
+  background-color: #e5e7eb;
+}
+
+.no-tasks-message {
+  opacity: 0.9;
+}
