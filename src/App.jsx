@@ -14,6 +14,7 @@ function App() {
     completeTask,
     getTopTask,
     popTopTask,
+    updateTask,
   } = useTaskManager();
 
   const topTask = getTopTask();
@@ -33,7 +34,7 @@ function App() {
         <div className="left-column">
           <TaskForm onSubmit={addTask} />
           <TopTaskCard task={topTask} onPop={popTopTask} />
-          <TaskList tasks={tasksList} onComplete={completeTask} />
+          <TaskList tasks={tasksList} onComplete={completeTask} onUpdate={updateTask} />
         </div>
 
         <div className="right-column">

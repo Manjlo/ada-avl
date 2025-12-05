@@ -3,9 +3,9 @@ import { useMemo } from 'react';
 import './AVLVisualizer.css';
 
 // 1. Reduced sizes for a cleaner look
-const NODE_RADIUS = 18;
-const LEVEL_HEIGHT = 60;
-const HORIZONTAL_GAP = 20;
+const NODE_RADIUS = 6;
+const LEVEL_HEIGHT = 25;
+const HORIZONTAL_GAP = 6;
 const PADDING = 20;
 
 /**

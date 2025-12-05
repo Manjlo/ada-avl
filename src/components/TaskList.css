@@ -62,8 +62,7 @@
 .priority-high { background-color: var(--danger-red); }
 .priority-unknown { background-color: var(--text-secondary); }
 
-.complete-button {
-  background-color: var(--success-green);
+.complete-button, .edit-button, .save-button, .cancel-button {
   color: var(--text-primary);
   font-weight: 700;
   padding: 0.25rem 0.75rem;
@@ -73,10 +72,53 @@
   transition: background-color 0.2s;
 }
 
-.complete-button:hover {
-  background-color: #059669;
-}
+.complete-button { background-color: var(--success-green); }
+.complete-button:hover { background-color: #059669; }
+
+.edit-button { background-color: var(--accent-blue); }
+.edit-button:hover { background-color: #2563eb; }
+
+.save-button { background-color: var(--accent-purple); }
+.save-button:hover { background-color: #7c3aed; }
+
+.cancel-button { background-color: var(--text-secondary); }
+.cancel-button:hover { background-color: #6b7280; }
 
 .no-tasks {
   color: var(--text-secondary);
+}
+
+/* Edit Form Styles */
+.edit-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.edit-fields {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.edit-fields label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.edit-input, .edit-select {
+  background-color: #4b5563;
+  border: 1px solid #6b7280;
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  padding: 0.25rem;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
 }

@@ -77,6 +77,28 @@ export function useTaskManager() {
     return topTask;
   }, []);
 
+  const updateTask = useCallback((taskId, updates) => {
+    // Create a new list with the updated task
+    const updatedTasks = tasksList.map(task =>
+      task.id === taskId ? { ...task, ...updates } : task
+    );
+
+    // Rebuild the heap and AVL tree from scratch with the updated data
+    const newHeap = new BinaryHeap();
+    const newAvl = new AVLTree();
+    updatedTasks.forEach(task => {
+      newHeap.push(task);
+      newAvl.insert(task);
+    });
+
+    heap.current = newHeap;
+    avl.current = newAvl;
+
+    // Update state to trigger re-renders
+    setTasksList(updatedTasks);
+    setAvlRoot({ ...avl.current.root });
+  }, [tasksList]);
+
   const findTask = useCallback((id) => {
     return avl.current.find(id);
   }, []);
@@ -88,6 +110,7 @@ export function useTaskManager() {
     completeTask,
     getTopTask,
     popTopTask,
+    updateTask,
     findTask,
   };
 }

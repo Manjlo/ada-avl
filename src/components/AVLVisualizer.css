@@ -9,6 +9,8 @@
   justify-content: center;
   align-items: center;
   min-height: 300px; /* Ensure container has a minimum height */
+  width: 100%; /* Ensure it fills the parent container */
+  position: relative; /* Needed for absolute positioning of the title */
 }
 
 .visualizer-title {
@@ -28,12 +30,12 @@
 
 .node-line {
   stroke: white;
-  stroke-width: 2;
+  stroke-width: 1;
 }
 
 .node-circle {
   stroke: white;
-  stroke-width: 2;
+  stroke-width: 1;
 }
 
 .priority-1 { fill: var(--success-green); }
@@ -43,7 +45,7 @@
 .node-text {
   fill: black;
   font-weight: 700;
-  font-size: 0.75rem;
+  font-size: 0.3rem; /* Final, minimal font size */
   text-anchor: middle;
   dominant-baseline: middle;
 }
