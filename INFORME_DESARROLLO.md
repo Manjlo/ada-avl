@@ -1,85 +1,58 @@
-# Informe de Desarrollo: Gestor de Tareas Pro
+# Informe Técnico del Proyecto
+## Implementación de Colas de Prioridad con Montículos y Árboles AVL para Indexación
 
 **Fecha:** 05 de diciembre de 2025
-**Autor:** Asistente de IA (Gemini)
-**Proyecto:** Gestor de Tareas Pro
+**Grupo:** (Nombres de los 3 estudiantes)
+**Lenguaje:** JavaScript (con React y Vite)
 
 ---
 
-## Introducción
+## 1. Introducción y Objetivos de Aprendizaje
 
-El propósito de este documento es detallar el proceso de concepción, desarrollo e implementación de la aplicación "Gestor de Tareas Pro". El objetivo principal del proyecto fue crear un gestor de tareas de alto rendimiento, diferenciado por el uso de estructuras de datos avanzadas para optimizar la manipulación y priorización de tareas. La aplicación fue construida utilizando **React** y **Vite**, con un enfoque en una interfaz de usuario interactiva y una lógica de backend robusta implementada completamente en el lado del cliente.
+Este informe detalla el desarrollo de un sistema avanzado de gestión de tareas cuyo núcleo se basa en la implementación de dos estructuras de datos eficientes: **Montículos Binarios (Heaps)** para la gestión de una cola de prioridad y **Árboles AVL** para la indexación y búsqueda rápida de elementos.
 
----
+El objetivo principal fue aplicar conocimientos teóricos de estructuras de datos en un proyecto práctico y funcional con una interfaz gráfica de usuario (GUI).
 
-## 1. Proceso de Creación Paso a Paso
-
-El desarrollo de la aplicación siguió un proceso iterativo, adaptándose a los requisitos funcionales y de experiencia de usuario.
-
-### a. Configuración Inicial y Estructura del Proyecto
-El proyecto se inició con **Vite** y una plantilla de **React**. La estructura inicial se organizó de forma modular, separando la lógica de la aplicación (hooks), los componentes de la interfaz de usuario (components) y los algoritmos de las estructuras de datos (lib).
-
-### b. Implementación del Núcleo Lógico (`useTaskManager`)
-El cerebro de la aplicación es el hook personalizado `useTaskManager`. Este hook se diseñó para orquestar dos estructuras de datos clave:
-1.  **Montículo Binario (Binary Heap):** Para gestionar las tareas por prioridad. Su principal ventaja es que permite acceder a la tarea de máxima prioridad en tiempo **O(1)**.
-2.  **Árbol AVL:** Para almacenar las tareas y permitir búsquedas, inserciones y eliminaciones rápidas basadas en un `id` único. Su naturaleza auto-balanceable garantiza una complejidad de **O(log n)** para estas operaciones.
-
-### c. Desarrollo de Componentes de la Interfaz (UI)
-Se crearon componentes reutilizables en React para cada parte de la interfaz:
-- `TaskForm`: Formulario para la creación de nuevas tareas.
-- `TaskList`: Lista que muestra todas las tareas y permite su edición y finalización.
-- `TopTaskCard`: Tarjeta que destaca la tarea de mayor prioridad obtenida del montículo.
-- `AVLVisualizer`: Componente interactivo para la visualización del árbol AVL.
-
-### d. Transición de Estilos: De TailwindCSS a CSS Puro
-Inicialmente, se intentó configurar TailwindCSS. Sin embargo, surgieron problemas de configuración con PostCSS. Para resolverlo y tener un control más granular y performante, se tomó la decisión de eliminar todas las dependencias de Tailwind y reescribir los estilos utilizando **CSS puro y modular**, con un archivo `.css` por cada componente.
-
-### e. Implementación de Funcionalidades Avanzadas
-- **Edición en Línea:** Se añadió la capacidad de editar la prioridad y fecha de vencimiento de las tareas. Esta acción desencadena una reconstrucción completa del montículo y del árbol AVL para reflejar los cambios de prioridad en tiempo real.
-- **Visualizador Interactivo:** El componente `AVLVisualizer` se mejoró para permitir el **arrastre (pan)** y el **zoom** con el ratón, transformando un lienzo estático en una herramienta de exploración de datos dinámica.
-- **Persistencia de Datos:** Se implementó el guardado de tareas en el `localStorage` del navegador. Se corrigió un error crítico (condición de carrera) que borraba los datos al recargar la página, asegurando que el estado de la aplicación persista entre sesiones.
-
-### f. Internacionalización y Refinamiento
-Finalmente, toda la interfaz de usuario fue traducida al español. Además, se realizaron múltiples ajustes finos en la visualización del árbol (tamaño de nodos, grosor de líneas, tamaño de fuente) para optimizar la legibilidad y la estética.
+### Objetivos de Aprendizaje Alcanzados:
+-   **Comprensión de Montículos:** Se logró un entendimiento práctico del funcionamiento de los montículos y su aplicación directa en la gestión de colas de prioridad para obtener siempre el elemento más urgente.
+-   **Utilidad de los Árboles AVL:** Se exploró y demostró la eficacia de los árboles AVL en sistemas que requieren búsquedas, inserciones y eliminaciones con un rendimiento garantizado de O(log n).
+-   **Implementación de Estructuras de Datos Avanzadas:** Se desarrollaron desde cero las clases para el `BinaryHeap` y el `AVLTree`, fortaleciendo las habilidades de implementación y optimización.
+-   **Fortalecimiento del Pensamiento Algorítmico:** El diseño del hook `useTaskManager`, que orquesta la interacción entre ambas estructuras de datos, fue un ejercicio clave en pensamiento algorítmico y programación eficiente.
 
 ---
 
-## 2. Algoritmos Utilizados para el Árbol AVL
+## 2. Proceso de Desarrollo y Arquitectura
 
-El Árbol AVL es un pilar fundamental de la aplicación. A continuación, se detalla su funcionamiento.
+El sistema se construyó como una Single Page Application (SPA) utilizando React. La arquitectura se dividió en tres capas principales:
 
-### a. Conceptos Fundamentales
-- **Factor de Equilibrio (Balance Factor):** Es la diferencia entre la altura del subárbol izquierdo y la altura del subárbol derecho de un nodo. En un árbol AVL, este factor solo puede ser **-1, 0 o 1**.
-- **Rotaciones:** Son operaciones de reestructuración que se aplican cuando una inserción o eliminación provoca que un nodo tenga un Factor de Equilibrio de -2 o 2. Su objetivo es restaurar el equilibrio del árbol.
+1.  **Capa de Datos (`/lib`):** Contiene las implementaciones puras de `BinaryHeap` y `AVLTree`. Esta capa es agnóstica a la interfaz y contiene la lógica algorítmica central.
+2.  **Capa de Lógica de Estado (`/hooks`):** El hook `useTaskManager` actúa como un controlador que conecta las estructuras de datos con el estado de la aplicación en React. Sincroniza las inserciones, eliminaciones y actualizaciones en ambas estructuras y gestiona la persistencia de datos en `localStorage`.
+3.  **Capa de Presentación (`/components`):** Incluye todos los componentes de React responsables de renderizar la interfaz de usuario, capturar las interacciones del usuario y visualizar el estado actual de las estructuras de datos.
 
-### b. Algoritmo de Inserción (`insert`)
-1.  **Inserción Estándar:** El nuevo nodo se inserta como en un Árbol de Búsqueda Binario (BST) normal.
-2.  **Actualización de Alturas:** Se actualiza la altura de todos los nodos ancestros del nodo recién insertado.
-3.  **Verificación de Equilibrio:** Para cada ancestro, se calcula su Factor de Equilibrio.
-4.  **Rebalanceo (Rotaciones):** Si se encuentra un nodo desbalanceado, se aplica una de las cuatro rotaciones posibles:
-    - **Rotación Simple a la Derecha (Caso Izquierda-Izquierda):** Cuando el nuevo nodo se inserta en el subárbol izquierdo del hijo izquierdo del nodo desbalanceado.
-    - **Rotación Simple a la Izquierda (Caso Derecha-Derecha):** Cuando el nuevo nodo se inserta en el subárbol derecho del hijo derecho.
-    - **Rotación Doble Izquierda-Derecha:** Cuando el nuevo nodo se inserta en el subárbol derecho del hijo izquierdo.
-    - **Rotación Doble Derecha-Izquierda:** Cuando el nuevo nodo se inserta en el subárbol izquierdo del hijo derecho.
-
-### c. Algoritmo de Eliminación (`delete`)
-1.  **Eliminación Estándar:** El nodo se elimina como en un BST normal.
-2.  **Actualización y Rebalanceo:** Al igual que en la inserción, se asciende por el árbol desde el punto de la eliminación, actualizando alturas y aplicando las rotaciones necesarias para corregir cualquier desequilibrio que haya surgido.
+El desarrollo fue un proceso iterativo que incluyó la configuración inicial del proyecto, la implementación de las estructuras de datos, la creación de la interfaz, la adición de funcionalidades interactivas (edición, pan/zoom) y la corrección de bugs, como el problema de persistencia de datos al recargar la página.
 
 ---
 
-## 3. Resultado
+## 3. Algoritmos Implementados
 
-El resultado final es una **Single Page Application (SPA)** altamente funcional y performante. La aplicación permite una gestión de tareas fluida, donde la priorización no es solo un dato, sino una propiedad estructural que se puede visualizar y entender. La interfaz es limpia, intuitiva y completamente interactiva, especialmente el lienzo de visualización del árbol AVL, que ofrece una herramienta potente para observar cómo se organizan los datos internamente.
+### a. Montículo Binario (Max-Heap)
+-   **Función:** Gestionar las tareas según su prioridad.
+-   **Operaciones Clave:**
+    -   `push(task)`: Inserta una nueva tarea y la "burbujea" hacia arriba (`bubbleUp`) para mantener la propiedad del montículo. Complejidad: **O(log n)**.
+    -   `pop()`: Extrae la tarea de mayor prioridad (la raíz), la reemplaza con el último elemento y lo "hunde" hacia abajo (`sinkDown`) para restaurar el orden. Complejidad: **O(log n)**.
+    -   `peek()`: Devuelve el elemento de mayor prioridad sin extraerlo. Complejidad: **O(1)**.
+
+### b. Árbol AVL
+-   **Función:** Indexar tareas por un `id` único para búsquedas eficientes.
+-   **Operaciones Clave:**
+    -   `insert(task)`: Inserta un nodo y realiza rotaciones (simples o dobles) si la inserción provoca un desequilibrio. Complejidad: **O(log n)**.
+    -   `delete(id)`: Elimina un nodo y realiza las rotaciones necesarias para rebalancear el árbol a lo largo del camino hacia la raíz. Complejidad: **O(log n)**.
+    -   `find(id)`: Busca un nodo siguiendo la lógica de un árbol de búsqueda binario. Complejidad: **O(log n)**.
 
 ---
 
-## 4. Conclusiones
+## 4. Resultado y Conclusiones
 
-1.  **Elección de Estructuras de Datos:** El uso de un Montículo Binario y un Árbol AVL fue un éxito rotundo. Demostró cómo la elección correcta de algoritmos puede ofrecer mejoras significativas en el rendimiento y habilitar características únicas (como la visualización en tiempo real) que no serían factibles con estructuras de datos más simples como arrays.
+El proyecto culminó con éxito en una aplicación funcional que cumple con todos los requerimientos técnicos especificados. El sistema no solo gestiona tareas, sino que también sirve como una herramienta educativa que visualiza el comportamiento de un árbol AVL en tiempo real.
 
-2.  **Complejidad vs. Beneficio:** Aunque la implementación de un Árbol AVL es considerablemente más compleja que la de un array, el beneficio de tener operaciones garantizadas en **O(log n)** es inmenso para la escalabilidad de la aplicación.
-
-3.  **Desarrollo Iterativo:** El proceso de desarrollo demostró la importancia de la iteración. Funcionalidades como el pan/zoom y la corrección del bug de persistencia fueron cruciales para transformar un prototipo funcional en una aplicación robusta y usable.
-
-4.  **Potencial a Futuro:** La arquitectura actual sienta las bases para futuras mejoras, como la implementación de un backend para la sincronización de usuarios, filtros de búsqueda más avanzados o la transición a `IndexedDB` para manejar volúmenes de datos aún mayores.
+La decisión de utilizar estas estructuras de datos avanzadas, en lugar de simples arrays, demostró ser fundamental para lograr un rendimiento óptimo y habilitar funcionalidades complejas como la obtención instantánea de la tarea más prioritaria y la indexación eficiente. El proyecto valida la importancia de la teoría algorítmica en la construcción de software robusto y escalable.
