@@ -51,9 +51,14 @@
 .node-text {
   fill: black;
   font-weight: 700;
-  font-size: 0.3rem; /* Final, minimal font size */
+  font-size: 0.5rem;
   text-anchor: middle;
   dominant-baseline: middle;
+}
+
+.node-id-text {
+  font-size: 0.4rem;
+  fill: #2d3748;
 }
 
 .empty-tree-message {

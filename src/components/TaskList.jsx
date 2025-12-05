@@ -70,7 +70,12 @@ export function TaskList({ tasks, onComplete, onUpdate }) {
               ) : (
                 <>
                   <div className="task-details">
-                    <p className="task-description">{task.description}</p>
+                    <p className="task-description">
+                      {task.description}
+                      <span className="task-id" title={`ID Completo: ${task.id}`}>
+                        (ID: ...{String(task.id).slice(-5)})
+                      </span>
+                    </p>
                     <p className="task-due-date">Vence: {task.dueDate}</p>
                   </div>
                   <div className="task-actions">

@@ -2,9 +2,9 @@
 import { useState, useMemo, useRef } from 'react';
 import './AVLVisualizer.css';
 
-const NODE_RADIUS = 6;
-const LEVEL_HEIGHT = 25;
-const HORIZONTAL_GAP = 6;
+const NODE_RADIUS = 16;
+const LEVEL_HEIGHT = 50;
+const HORIZONTAL_GAP = 12;
 const PADDING = 20;
 
 // ... (calculatePositions and Node component remain the same)
@@ -52,9 +52,15 @@ const Node = ({ node, positions, parentPosition }) => {
         />
         <text
           className="node-text"
-          dy=".3em"
+          dy="-0.1em"
         >
           {`P:${node.task.priority}`}
+        </text>
+        <text
+          className="node-text node-id-text"
+          dy="1.1em"
+        >
+          {`#${String(node.key).slice(-3)}`}
         </text>
         <title>{`ID: ${node.key}\nDesc: ${node.task.description}\nVence: ${node.task.dueDate}`}</title>
       </g>

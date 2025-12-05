@@ -25,9 +25,9 @@ export function loadTasks() {
     if (serializedTasks === null) {
       // For demonstration, let's seed with some initial data if storage is empty.
       const seedData = [
-        { id: 1, description: 'Implement AVL Tree', priority: 3, dueDate: '2025-12-01' },
-        { id: 2, description: 'Implement Binary Heap', priority: 3, dueDate: '2025-11-30' },
-        { id: 3, description: 'Design the UI', priority: 2, dueDate: '2025-12-05' },
+        { id: 101, description: 'Estudiar para el examen', priority: 3, dueDate: '2025-12-05' },
+        { id: 102, description: 'Comprar útiles escolares', priority: 2, dueDate: '2025-12-05' },
+        { id: 103, description: 'Revisar correos electrónicos', priority: 1, dueDate: '2025-12-05' },
       ];
       saveTasks(seedData);
       return seedData;

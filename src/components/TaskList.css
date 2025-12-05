@@ -38,6 +38,12 @@
   color: var(--text-primary);
 }
 
+.task-id {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-left: 0.5rem;
+}
+
 .task-details .task-due-date {
   font-size: 0.875rem;
   color: var(--text-secondary);
